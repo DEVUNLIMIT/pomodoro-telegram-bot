@@ -1,3 +1,5 @@
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 import admin from 'firebase-admin';
 import moment from 'moment';
 import Axios from 'axios';
@@ -48,7 +50,6 @@ const getSnapshot = async () => {
     
     const val = Pomos.val();
   });
-
 }
 
 const sendMessage = async () => {
@@ -57,12 +58,14 @@ const sendMessage = async () => {
   
   const TELEGRAM_API_ENDPOINT = `https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendmessage`;
   console.log(text);
-  // Axios.post(TELEGRAM_API_ENDPOINT, {
+  // await Axios.post(TELEGRAM_API_ENDPOINT, {
   //   chat_id: process.env.TELEGRAM_CHAT_ID,
   //   text
   // }).then({
-    
+
   // });
+
+  process.exit();
 }
 
 const start = async () => {

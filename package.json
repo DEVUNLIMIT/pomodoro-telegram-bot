@@ -22,8 +22,10 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "core-js": "^3.6.4",
     "dotenv": "^8.2.0",
     "firebase-admin": "^8.9.2",
-    "moment": "^2.24.0"
+    "moment": "^2.24.0",
+    "regenerator-runtime": "^0.13.3"
   }
 }
