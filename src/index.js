@@ -34,7 +34,7 @@ const weekdayLocaleKo = ['일요일', '월요일', '화요일', '수요일', '�
 const getListUsers = async () => {
   const listUsersResult = await admin.auth().listUsers();
   
-  listUsersResult.users.forEach(userRecord => {
+  asyncForEach(listUsersResult.users, userRecord => {
     userData.push({
       uid: userRecord.uid,
       name: userRecord.displayName.split(' ')[0],
@@ -44,29 +44,37 @@ const getListUsers = async () => {
 };
 
 const getSnapshot = async () => {
-  userData.forEach(async user => {
+  await asyncForEach(userData, async (user, index) => {
     const PomosRef = db.ref(`/pomos/${user.uid}/y${currentYear}/w${currentWeek}`)
     const Pomos = await PomosRef.once('value');
     
     const val = Pomos.val();
+
+    if(val) {
+      userData[index].pomos = Object.keys(val).length;
+    } else {
+      userData[index].pomos = 0;
+    }
   });
-}
+};
 
 const sendMessage = async () => {
   let text = `${currentYear}년 ${currentWeek}주차 ${weekdayLocaleKo[currentDay]} 뽀모도로 현황\n`;
-
+  text += '=====================\n'
+  
+  userData.map(user => text += `${capitalize(user.name)}: ${user.pomos}회\n`);
   
   const TELEGRAM_API_ENDPOINT = `https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendmessage`;
-  console.log(text);
-  // await Axios.post(TELEGRAM_API_ENDPOINT, {
-  //   chat_id: process.env.TELEGRAM_CHAT_ID,
-  //   text
-  // }).then({
-
-  // });
+  await Axios.post(TELEGRAM_API_ENDPOINT, {
+    chat_id: process.env.TELEGRAM_CHAT_ID,
+    text
+  }).catch(e => {
+    console.error(e);
+    process.exit();
+  });
 
   process.exit();
-}
+};
 
 const start = async () => {
   await getListUsers();
@@ -75,3 +83,14 @@ const start = async () => {
 }
 
 start();
+
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
+
+function capitalize(s) {
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
