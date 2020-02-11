@@ -1,5 +1,5 @@
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
+import 'babel-core/register';
+import 'babel-polyfill';
 import admin from 'firebase-admin';
 import moment from 'moment';
 import Axios from 'axios';

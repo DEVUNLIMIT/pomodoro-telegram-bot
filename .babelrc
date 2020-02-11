@@ -4,6 +4,8 @@
     "minify"
   ],
   "plugins": [
-    "transform-strict-mode"
+    ["transform-runtime", {
+      "regenerator": true
+    }]
   ]
 }

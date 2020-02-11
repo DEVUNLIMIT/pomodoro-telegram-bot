@@ -14,18 +14,16 @@
   "devDependencies": {
     "babel": "^6.23.0",
     "babel-cli": "^6.26.0",
+    "babel-minify": "^0.5.1",
     "babel-node": "^0.0.1-security",
-    "babel-plugin-transform-strict-mode": "^6.24.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",
-    "babel-preset-minify": "^0.5.1",
     "nodemon": "^2.0.2"
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "core-js": "^3.6.4",
     "dotenv": "^8.2.0",
     "firebase-admin": "^8.9.2",
-    "moment": "^2.24.0",
-    "regenerator-runtime": "^0.13.3"
+    "moment": "^2.24.0"
   }
 }
